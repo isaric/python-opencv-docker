@@ -6,8 +6,6 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '39 10 * * *'
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
@@ -117,7 +115,7 @@ jobs:
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
           TAGS: ghcr.io/isaric/python-opencv-docker:python-3.10-opencv-4.8.0-arm64
-          DIGEST: ${{ steps.build-and-push.outputs-arm64.digest }}
+          DIGEST: ${{ steps.build-and-push-arm64.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
